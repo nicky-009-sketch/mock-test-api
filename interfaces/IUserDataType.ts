@@ -1,11 +1,11 @@
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
+  otp?:number
 }
 
-export interface IUserRegisterPostDataType{
-  name: string;
-  email: string;
+export interface IUserGenerateOtpPostDataType{
+email:string
 }

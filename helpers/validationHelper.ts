@@ -1,10 +1,10 @@
 import Ajv, { ErrorObject, ValidateFunction } from "ajv";
-import { IUserRegisterPostDataType } from "../interfaces/IUserDataType";
+import { IUserGenerateOtpPostDataType } from "../interfaces/IUserDataType";
 import { userRegistrationPostRequestSchema } from "../schema/requestSchema/userRequestPutPostSchemal";
 
 export class ValidationHelper {
  private _ajv = new Ajv({ useDefaults: true, allErrors: true });
- private _userRegistrationPostCompiledSchema: ValidateFunction<IUserRegisterPostDataType>;
+ private _userRegistrationPostCompiledSchema: ValidateFunction<IUserGenerateOtpPostDataType>;
 
  constructor() {
   this._userRegistrationPostCompiledSchema = this._ajv.compile(userRegistrationPostRequestSchema);
@@ -14,9 +14,9 @@ export class ValidationHelper {
   return pattern.test(str);
  }
 
- userRegisterPostRequest(data: unknown, type: "query" | "body"): { invalid: false; reason: ErrorObject[]; data: IUserRegisterPostDataType; }
- userRegisterPostRequest(data: unknown, type: "query" | "body"): { invalid: true; reason: ErrorObject[]; data: undefined; }
- userRegisterPostRequest(data: unknown, type: "query" | "body"): { invalid: boolean; reason: ErrorObject[]; data?: IUserRegisterPostDataType; } {
+ userGenerateOtpPostRequest(data: unknown, type: "query" | "body"): { invalid: false; reason: ErrorObject[]; data: IUserGenerateOtpPostDataType; }
+ userGenerateOtpPostRequest(data: unknown, type: "query" | "body"): { invalid: true; reason: ErrorObject[]; data: undefined; }
+ userGenerateOtpPostRequest(data: unknown, type: "query" | "body"): { invalid: boolean; reason: ErrorObject[]; data?: IUserGenerateOtpPostDataType; } {
   return this._validateData(this._userRegistrationPostCompiledSchema, data, type);
  }
 

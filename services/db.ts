@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // password is Bhurji@123 but it take herere Bhurji%40123
-const url = 'mongodb+srv://ab_mock_test:Bhurji%40123@clustermocktest.0q6ax.mongodb.net/ab_mock'
+const url = 'mongodb+srv://ab_mock_test:Bhurji%40123@clustermocktest.0q6ax.mongodb.net/mock_test'
 const connectToDatabase = async () => {
  try {
   await mongoose.connect(url);

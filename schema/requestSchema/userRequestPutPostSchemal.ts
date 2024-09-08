@@ -1,13 +1,12 @@
 import { JSONSchemaType } from "ajv";
-import { IUserRegisterPostDataType } from "../../interfaces/IUserDataType";
+import { IUserGenerateOtpPostDataType } from "../../interfaces/IUserDataType";
 
-export const userRegistrationPostRequestSchema: JSONSchemaType <IUserRegisterPostDataType> = {
+export const userRegistrationPostRequestSchema: JSONSchemaType <IUserGenerateOtpPostDataType> = {
  $schema: "http://json-schema.org/draft-07/schema#",
  type: "object",
  properties: {
-  name: { type: "string" },
-  email: { type: "string" }
+  email: { type: "string" },
  },
- required: ["name", "email"],
+ required: ["email"],
  additionalProperties: false
 };
