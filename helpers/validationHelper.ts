@@ -1,13 +1,15 @@
 import Ajv, { ErrorObject, ValidateFunction } from "ajv";
-import { IUserGenerateOtpPostDataType } from "../interfaces/IUserDataType";
-import { userRegistrationPostRequestSchema } from "../schema/requestSchema/userRequestPutPostSchemal";
+import { IUserGenerateOtpPostDataType, IUserLoginPostDataType } from "../interfaces/IUserDataType";
+import { userLoginPostRequestSchema, userRegistrationPostRequestSchema } from "../schema/requestSchema/userRequestPutPostSchemal";
 
 export class ValidationHelper {
  private _ajv = new Ajv({ useDefaults: true, allErrors: true });
  private _userRegistrationPostCompiledSchema: ValidateFunction<IUserGenerateOtpPostDataType>;
+ private _userLoginPostCompiledSchema: ValidateFunction<IUserLoginPostDataType>;
 
  constructor() {
   this._userRegistrationPostCompiledSchema = this._ajv.compile(userRegistrationPostRequestSchema);
+  this._userLoginPostCompiledSchema = this._ajv.compile(userLoginPostRequestSchema)
  }
  public ifSpecialCharExist(str: string): boolean {
   const pattern = /[\!\@\#\$\%\^\&\*\(\)\+\=\}\{\]\[\\\|\:\;\?\/\>\.\<\~]/;
@@ -18,6 +20,12 @@ export class ValidationHelper {
  userGenerateOtpPostRequest(data: unknown, type: "query" | "body"): { invalid: true; reason: ErrorObject[]; data: undefined; }
  userGenerateOtpPostRequest(data: unknown, type: "query" | "body"): { invalid: boolean; reason: ErrorObject[]; data?: IUserGenerateOtpPostDataType; } {
   return this._validateData(this._userRegistrationPostCompiledSchema, data, type);
+ }
+
+ userLoginPostRequest(data: unknown, type: "query" | "body"): { invalid: false; reason: ErrorObject[]; data: IUserLoginPostDataType; }
+ userLoginPostRequest(data: unknown, type: "query" | "body"): { invalid: true; reason: ErrorObject[]; data: undefined; }
+ userLoginPostRequest(data: unknown, type: "query" | "body"): { invalid: boolean; reason: ErrorObject[]; data?: IUserLoginPostDataType; } {
+  return this._validateData(this._userLoginPostCompiledSchema, data, type);
  }
 
  
