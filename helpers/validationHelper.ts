@@ -1,15 +1,19 @@
 import Ajv, { ErrorObject, ValidateFunction } from "ajv";
 import { IUserGenerateOtpPostDataType, IUserLoginPostDataType } from "../interfaces/IUserDataType";
 import { userLoginPostRequestSchema, userRegistrationPostRequestSchema } from "../schema/requestSchema/userRequestPutPostSchemal";
+import { IExamMockTestPostDataType } from "../interfaces/IMockTestDataType";
+import { examMockTestPostRequestSchema } from "../schema/requestSchema/mockTestRequestPutPostSchema";
 
 export class ValidationHelper {
  private _ajv = new Ajv({ useDefaults: true, allErrors: true });
  private _userRegistrationPostCompiledSchema: ValidateFunction<IUserGenerateOtpPostDataType>;
  private _userLoginPostCompiledSchema: ValidateFunction<IUserLoginPostDataType>;
+ private _examMockTestPostCompiledSchema: ValidateFunction<IExamMockTestPostDataType>;
 
  constructor() {
   this._userRegistrationPostCompiledSchema = this._ajv.compile(userRegistrationPostRequestSchema);
   this._userLoginPostCompiledSchema = this._ajv.compile(userLoginPostRequestSchema)
+  this._examMockTestPostCompiledSchema = this._ajv.compile(examMockTestPostRequestSchema)
  }
  public ifSpecialCharExist(str: string): boolean {
   const pattern = /[\!\@\#\$\%\^\&\*\(\)\+\=\}\{\]\[\\\|\:\;\?\/\>\.\<\~]/;
@@ -28,6 +32,12 @@ export class ValidationHelper {
   return this._validateData(this._userLoginPostCompiledSchema, data, type);
  }
 
+ examMockTestPostRequest(data: unknown, type: "query" | "body"): { invalid: false; reason: ErrorObject[]; data: IExamMockTestPostDataType; }
+ examMockTestPostRequest(data: unknown, type: "query" | "body"): { invalid: true; reason: ErrorObject[]; data: undefined; }
+ examMockTestPostRequest(data: unknown, type: "query" | "body"): { invalid: boolean; reason: ErrorObject[]; data?: IExamMockTestPostDataType; } {
+  return this._validateData(this._examMockTestPostCompiledSchema, data, type);
+ }
+ 
  
 
  private _validateData<T>(validateFunction: ValidateFunction<T>, data: unknown, type: "query" | "body") {
