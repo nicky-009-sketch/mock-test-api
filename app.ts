@@ -4,6 +4,7 @@ import { userRouter } from './routes/userRouter';
 import { examRouter } from "./routes/examRouter";
 import cors from "cors";
 import { mockTestRouter } from "./routes/mockTestRouter";
+import { questionRouter } from "./routes/questionRouter";
 const app = express();
 
 app.use(express.json());
@@ -15,6 +16,7 @@ app.set('trust proxy', true)
 app.use('/nodeapi/user', userRouter);
 app.use('/nodeapi/exam', examRouter);
 app.use('/nodeapi/mock', mockTestRouter);
+app.use('/nodeapi/question', questionRouter);
 
 app.listen(config.port, () => {
   console.log(`Node server started running on port: ${config.port}`)

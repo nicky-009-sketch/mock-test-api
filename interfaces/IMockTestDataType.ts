@@ -8,7 +8,7 @@ export interface IMockTest extends Document {
  positive_marks?: string
  negative_marks?: string
  created_at?: string
- createdupdated_at_at?: string
+ updated_at?: string
 }
 
 export interface IExamMockTestPostDataType {
