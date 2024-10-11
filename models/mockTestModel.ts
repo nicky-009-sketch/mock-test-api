@@ -5,12 +5,12 @@ const mockTestDB = mongoose.model<IMockTest>('ab_tests', mockTestSchema);
 
 export class mockTestModel {
 
- list = async (examId: string): Promise<IMockTest | null | unknown> => {
+ list = async (examId: string): Promise<IMockTest[] | undefined | null> => {
   try {
    const exam_id = new mongoose.Types.ObjectId(examId)
    const query = {exam_id:exam_id};
    const options = {};
-   const tests = await mockTestDB.find(query).exec();
+   const tests = await mockTestDB.find(query).lean().exec();
    return tests
   } catch (error) {
    console.error('Error finding all exams:', error);

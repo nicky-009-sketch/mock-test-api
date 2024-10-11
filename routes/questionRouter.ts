@@ -3,7 +3,7 @@ import { ValidationHelper } from '../helpers/validationHelper';
 import { questionModel } from '../models/questionModel';
 const questionRouter = express.Router();
 const vh = ValidationHelper.singleton;
-const qModel = new questionModel();
+const qesModel = new questionModel();
 
 questionRouter.post('/test-questions', async (req: Request, res: Response) => {
  try {
@@ -13,7 +13,7 @@ questionRouter.post('/test-questions', async (req: Request, res: Response) => {
    return res.status(417).json({ status: "Validationfailedure", message: reason });
   }
   const {testId} = validationResult?.data
-  const questionRes = await qModel.list(testId)
+  const questionRes = await qesModel.list(testId)
   res.status(200).json({ status: "success", data: questionRes });
  } catch (error) {
   console.log(error)
