@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const url = 'mongodb+srv://ab_mock_test:Bhurji%40123@clustermocktest.0q6ax.mongodb.net/mock_test'
 const connectToDatabase = async () => {
  try {
+  mongoose.set('debug', true);
   await mongoose.connect(url);
   console.log('Connected to MongoDB');
   mongoose.connection.on('error', (error: any) => {
