@@ -37,12 +37,12 @@ mockTestRouter.post('/exam-tests', async (req: Request, res: Response) => {
 mockTestRouter.post('/submission', async (req: Request, res: Response) => {
  try {
   //pending to wrrite schema validation.
-  const { user_id, test_id, attempted, unattempted } = req.body
-  const existingResponse = await smModel.findExist(user_id, test_id)
+  const { userId, testId, attempted, unattempted } = req.body
+  const existingResponse = await smModel.findExist(userId, testId)
   if (!existingResponse) {
-   const submissionRes = await smModel.saveResponse(user_id, test_id, attempted, unattempted);
+   const submissionRes = await smModel.saveResponse(userId, testId, attempted, unattempted)
    console.log('Saved response:', submissionRes);
-   return res.status(200).json({ status: "success", data: submissionRes });
+   return res.status(200).json({ status: "success", message:'Response saved successfully:', data: submissionRes });
   } else {
    console.log('Duplicate entry detected');
    return res.status(409).json({ status: "failed", message: 'Duplicate entry: User ID and Test ID combination already exists. No new entry created.' });
@@ -61,8 +61,8 @@ mockTestRouter.post('/evaluate', async (req: Request, res: Response) => {
   const questionRes: any = await quesModel.list(testId)
   const submittedRes: any = await smModel.findExist(userId, testId)
   const { attempted } = submittedRes;
-  const results = questionRes.map((question:any) => {
-   const userResponseItem = attempted.find((a:any)=> a.questionId === question.id);
+  const results = questionRes.map((question: any) => {
+   const userResponseItem = attempted.find((a: any) => a.questionId === question.id);
    return {
     questionId: question.id,
     questionText: question.questionText,

@@ -5,17 +5,22 @@ const submissionDB = mongoose.model<ISubmission>('ab_submission', submissionSche
 
 export class submissionModel {
 
- saveResponse = async (user_id: string, test_id: string, attempted: any, unattempted: any): Promise<ISubmission | null | unknown> => {
+ saveResponse = async (userId: string, testId: string, attempted: any, unattempted: any): Promise<ISubmission | null | unknown> => {
   try {
+   const transformedAttempted = attempted?.map((item: any) => {
+    return { question_id: item.questionId, option_id: item.optionId }
+   })
+   const user_id = new mongoose.Types.ObjectId(userId)
+   const test_id = new mongoose.Types.ObjectId(testId)
    const submission = new submissionDB({
     user_id: user_id,
     test_id: test_id,
-    attempted: attempted,
+    attempted: transformedAttempted,
     unattempted: unattempted
    });
    const savedResponse = await submission.save();
-   console.log('Response saved successfully:', savedResponse);
    return savedResponse;
+   return
   } catch (error) {
    console.error('Error submission test response:', error);
    throw error;
