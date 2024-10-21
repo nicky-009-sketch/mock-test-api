@@ -11,7 +11,7 @@ export class userModel {
    const query = { email }; // Empty query finds all documents
    const options = {}; // You can add options here, like sort, limit, etc.
    const user = await userDB.findOne(query, null, options).exec();
-   return user;
+   return user as IUser
   } catch (error) {
    console.error('Error finding user by userId:', error);
    throw error;
