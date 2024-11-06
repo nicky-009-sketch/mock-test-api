@@ -13,4 +13,5 @@ export interface IMockTest extends Document {
 
 export interface IExamMockTestPostDataType {
  examId: string;
+ categoryId: string;
 }

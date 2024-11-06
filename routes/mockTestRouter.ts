@@ -11,6 +11,23 @@ const insModel = new instructionModel();
 const smModel = new submissionModel();
 const quesModel = new questionModel();
 
+mockTestRouter.post('/categories', async (req: Request, res: Response) => {
+ try {
+  // const validationResult = vh.examMockTestPostRequest(req.body, 'body')
+  // if (validationResult.invalid) {
+  //  const reason = validationResult.reason[0];
+  //  return res.status(417).json({ status: "Validationfailedure", message: reason });
+  // }
+  const { examId } = req.body
+  const categoriesRes = await mtModel.categories(examId)
+  res.status(200).json({ status: "success", data: categoriesRes });
+ } catch (error) {
+  console.log(error)
+  console.log('error', error)
+  return res.status(500).json({ status: "failed", "message": "something went wrong" });
+ }
+})
+
 mockTestRouter.post('/exam-tests', async (req: Request, res: Response) => {
  try {
   const validationResult = vh.examMockTestPostRequest(req.body, 'body')
@@ -18,15 +35,9 @@ mockTestRouter.post('/exam-tests', async (req: Request, res: Response) => {
    const reason = validationResult.reason[0];
    return res.status(417).json({ status: "Validationfailedure", message: reason });
   }
-  const { examId } = req.body
-  const mockTestRes = await mtModel.list(examId)
-  const updateMockTests = mockTestRes?.map(async (test: any) => {
-   const [instructionRes] = await insModel.findById(test.instruction_id) ?? []
-   const instructionText = instructionRes?.instruction_text
-   return { ...test, instructionText }
-  })
-  const mockTests = await Promise.all([...updateMockTests || []])
-  res.status(200).json({ status: "success", data: mockTests });
+  const { examId, categoryId } = req.body
+  const mockTestRes = await mtModel.list(examId, categoryId)
+  res.status(200).json({ status: "success", data: mockTestRes });
  } catch (error) {
   console.log(error)
   console.log('error', error)
@@ -42,7 +53,7 @@ mockTestRouter.post('/submission', async (req: Request, res: Response) => {
   if (!existingResponse) {
    const submissionRes = await smModel.saveResponse(userId, testId, attempted, unattempted)
    console.log('Saved response:', submissionRes);
-   return res.status(200).json({ status: "success", message:'Response saved successfully:', data: submissionRes });
+   return res.status(200).json({ status: "success", message: 'Response saved successfully:', data: submissionRes });
   } else {
    console.log('Duplicate entry detected');
    return res.status(409).json({ status: "failed", message: 'Duplicate entry: User ID and Test ID combination already exists. No new entry created.' });
