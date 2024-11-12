@@ -18,9 +18,78 @@ app.use('/nodeapi/exam', examRouter);
 app.use('/nodeapi/mock', mockTestRouter);
 app.use('/nodeapi/question', questionRouter);
 
+
+
 app.listen(config.port, () => {
   console.log(`Node server started running on port: ${config.port}`)
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
